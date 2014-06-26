@@ -49,42 +49,40 @@ class SemanticVersion {
     }
 
     print(
-      "WARNING: comparing '{$this.pre}' and '${other.pre}' as strings!");
+      "WARNING: comparing '${this.pre}' and '${other.pre}' as strings!");
 
-    if (this.pre.isEmpty && other.pre.isEmpty &&
-        this.build.isEmpty && other.build.isEmpty) {
+    if (this.pre == null && other.pre == null &&
+        this.build == null && other.build == null) {
       return false;
-    } else if (this.pre.isEmpty && other.pre.isNotEmpty) {
+    } else if (this.pre == null && other.pre != null) {
       return true;
-    } else if (this.pre.isNotEmpty && other.pre.isEmpty) {
+    } else if (this.pre != null && other.pre == null) {
       return false;
     }
 
     print(
-      "WARNING: comparing '{$this.build}' and '${other.build}' as strings!");
+      "WARNING: comparing '${this.build}' and '${other.build}' as strings!");
 
-    if (this.build.isEmpty && other.build.isEmpty) {
-      return false;
-    } else if (this.build.isEmpty && other.build.isNotEmpty) {
-      return true;
-    } else if (this.build.isEmpty && other.build.isNotEmpty) {
-      return false;
-    }
-
-    var sorted = new List<String>();
-
-    if (this.pre.isNotEmpty && other.pre.isNotEmpty) {
+    if (this.pre != null && other.pre != null) {
       if (this.pre == other.pre) {
         if (this.build == other.build) {
           return false;
         }
-        var sorted = [this.build, other.build]..sort();
-        return identical(sorted[0], this.build);
       }
+      var sorted = [this.pre, other.pre]..sort();
+      return identical(sorted[0], this.pre);
     }
 
-    sorted = [this.pre, other.pre]..sort();
-    return identical(sorted[0], this.pre);
+    if (this.build == null && other.build == null) {
+      return false;
+    } else if (this.build == null && other.build != null) {
+      return true;
+    } else if (this.build == null && other.build != null) {
+      return false;
+    }
+
+    var sorted = [this.build, other.build]..sort();
+    return identical(sorted[0], this.build);
   }
 
   operator >(SemanticVersion other) {
