@@ -4,4 +4,4 @@ author: Guillermo López-Anglada <guillermo.lopez@outlook.com>
 description: A 'parser' for valid semantic version tags.
 homepage: https://github.com/guillermooo/dart-semver
 dependencies:
-  unittest: any
+  unittest: ">=0.11.0+2 <0.12.0"
