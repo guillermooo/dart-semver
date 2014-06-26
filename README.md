@@ -1,0 +1,1 @@
+A tag parser for valid semantic versioned tags.
