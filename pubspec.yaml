@@ -1,5 +1,5 @@
 name: semver
-version: 0.1.0
+version: 0.1.0-alpha
 description: A 'parser' for valid semantic version tags.
 dependencies:
   unittest: any
