@@ -86,24 +86,15 @@ class SemanticVersion {
   }
 
   operator >(SemanticVersion other) {
-    if (this == other || this < other) {
-      return false;
-    }
-    return true;
+    return !(this == other || this < other);
   }
 
   operator >=(SemanticVersion other) {
-    if (this > other || this == other ) {
-      return true;
-    }
-    return false;
+    return (this > other || this == other );
   }
 
   operator <=(SemanticVersion other) {
-    if (this < other || this == other) {
-      return true;
-    }
-    return false;
+    return (this < other || this == other);
   }
 
   @override
