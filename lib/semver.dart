@@ -27,8 +27,7 @@ class SemanticVersion {
 
   operator ==(SemanticVersion other) {
     return (this.major == other.major && this.minor == other.minor &&
-        this.patch == other.patch && this.pre == other.pre &&
-        this.build == other.build);
+        this.patch == other.patch && this.pre == other.pre);
   }
 
   operator <(SemanticVersion other) {
@@ -48,41 +47,22 @@ class SemanticVersion {
       }
     }
 
-    print(
-      "WARNING: comparing '${this.pre}' and '${other.pre}' as strings!");
-
-    if (this.pre == null && other.pre == null &&
-        this.build == null && other.build == null) {
+    if (this.pre == null && other.pre == null) {
       return false;
+      // TODO(guillermo): check this.
     } else if (this.pre == null && other.pre != null) {
       return true;
     } else if (this.pre != null && other.pre == null) {
       return false;
     }
 
-    print(
-      "WARNING: comparing '${this.build}' and '${other.build}' as strings!");
-
-    if (this.pre != null && other.pre != null) {
-      if (this.pre == other.pre) {
-        if (this.build == other.build) {
-          return false;
-        }
-      }
-      var sorted = [this.pre, other.pre]..sort();
-      return identical(sorted[0], this.pre);
+    if (this.pre == other.pre) {
+        return false;
     }
 
-    if (this.build == null && other.build == null) {
-      return false;
-    } else if (this.build == null && other.build != null) {
-      return true;
-    } else if (this.build == null && other.build != null) {
-      return false;
-    }
-
-    var sorted = [this.build, other.build]..sort();
-    return identical(sorted[0], this.build);
+    var isSmaller = comparePreReleasePart(splitPreReleaseParts(this.pre),
+        splitPreReleaseParts(other.pre));
+    return isSmaller == -1 ? true : false;
   }
 
   operator >(SemanticVersion other) {
@@ -111,4 +91,62 @@ class SemanticVersion {
 
     return version;
   }
+}
+
+int comparePreReleasePart(List a, List b) {
+  for(var i = 0; i < a.length; i++) {
+    if (i >= b.length) {
+      return 1;
+    }
+
+    var elemA = a[i];
+    var elemB = b[i];
+
+    // In Semver, integers < strings.
+    if (elemA is String && elemB is !String) {
+      return 1;
+    } else if (elemA is !String && elemB is String) {
+      return -1;
+    // Compare ints normally.
+    } else if (elemA is int && elemB is int) {
+      if (elemA < elemB) {
+        return -1;
+      } else if (elemA > elemB) {
+        return 1;
+      }
+    } else {
+      // Compare strings.
+      switch (compareStrings(elemA, elemB)) {
+        case -1:
+          return -1;
+        case 1:
+          return 1;
+        default:
+      }
+    }
+  }
+
+  if (a.length == b.length) {
+    return 0;
+  }
+
+  return a.length > b.length ? 1 : -1;
+}
+
+List splitPreReleaseParts(String thing) {
+  return thing.split('.').map((element) {
+    try {
+      return int.parse(element, radix: 10);
+    } catch (FormatException) {
+      return element;
+    }
+  }).toList(growable:false);
+}
+
+int compareStrings(String a, String b) {
+  if (a == b) {
+    return 0;
+  }
+  var sorted = [a, b]..sort();
+  return identical(sorted[0], a) ? -1 : 1;
 }

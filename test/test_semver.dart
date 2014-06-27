@@ -28,9 +28,9 @@ void main() {
     expect(sm == sm2, equals(true));
   });
 
-  test('can detect identical complex versions (pre-release + build data)', () {
-    var sm = new SemanticVersion(0, 1, 0, 'alpha.10', '20301010');
-    var sm2 = new SemanticVersion(0, 1, 0, 'alpha.10', '20301010');
+  test('can detect identical complex versions (pre-release)', () {
+    var sm = new SemanticVersion(0, 1, 0, 'alpha.10');
+    var sm2 = new SemanticVersion(0, 1, 0, 'alpha.10');
     expect(sm == sm2, equals(true));
   });
 
@@ -58,10 +58,10 @@ void main() {
     expect(sm < sm2, equals(true));
   });
 
-  test('can detect lesser version based on absence of build component', () {
+  test('absence/presence of build component does not affect test', () {
     var sm = new SemanticVersion(0, 0, 0);
     var sm2 = new SemanticVersion(0, 0, 0, null, '20201010');
-    expect(sm < sm2, equals(true));
+    expect(sm == sm2, equals(true));
   });
 
   test('checking for lesser version fails based on major component', () {
@@ -88,21 +88,33 @@ void main() {
     expect(sm < sm2, equals(false));
   });
 
-  test('checking for lesser version fails based on absence of build component', () {
-    var sm = new SemanticVersion(0, 1, 0, 'alpha');
-    var sm2 = new SemanticVersion(0, 0, 0);
-    expect(sm < sm2, equals(false));
-  });
-
   test('can detect lesser version based on pre-release component', () {
     var sm = new SemanticVersion(0, 0, 0, 'alpha');
     var sm2 = new SemanticVersion(0, 0, 0, 'beta');
     expect(sm < sm2, equals(true));
   });
 
-  test('can detect lesser version based on build component', () {
+  test('different build components do not affect test', () {
     var sm = new SemanticVersion(0, 0, 0, null, '200');
     var sm2 = new SemanticVersion(0, 0, 0, null, '201');
+    expect(sm == sm2, equals(true));
+  });
+
+  test('can compare alphabetic pre-release names', () {
+    var sm = new SemanticVersion(0, 0, 0, 'alpha');
+    var sm2 = new SemanticVersion(0, 0, 0, 'beta');
     expect(sm < sm2, equals(true));
+  });
+
+    test('can compare numeric pre-release names', () {
+      var sm = new SemanticVersion(0, 0, 0, '200');
+      var sm2 = new SemanticVersion(0, 0, 0, '201');
+      expect(sm < sm2, equals(true));
+  });
+
+    test('longer pre-release name wins', () {
+      var sm = new SemanticVersion(0, 0, 0, 'alpha');
+      var sm2 = new SemanticVersion(0, 0, 0, 'alpha.1');
+      expect(sm < sm2, equals(true));
   });
 }
