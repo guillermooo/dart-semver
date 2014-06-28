@@ -1,4 +1,3 @@
-
 class SemanticVersionTokenizer {
   final String _source;
   int _index = -1;
@@ -12,7 +11,7 @@ class SemanticVersionTokenizer {
     this._index++;
     if (this._index > (this._source.length - 1)) {
       this._index--;
-      throw new Exception("EOF");
+      throw new Exception('EOF');
     }
     return this.current;
   }
@@ -41,17 +40,22 @@ class SemanticVersionTokenizer {
   }
 
   void tokenizeMandatoryParts() {
-    !'0123456789'.contains(this.current) ?
-        throw new Exception('wrong format: ${this._source}') : true;
-   this.setMandatoryPart(this.tokenizeInt());
-   this.current != '.' ? throw new Exception('wrong format: ${this._source}')
-                       : true;
-   this.consume();
-   this.setMandatoryPart(this.tokenizeInt());
-   this.current != '.' ? throw new Exception('wrong format: ${this._source}')
-                       : true;
-   this.consume();
-   this.setMandatoryPart(this.tokenizeInt());
+    if (!'0123456789'.contains(this.current)) {
+      throw new Exception('wrong format: ${this._source}');
+    }
+    this.setMandatoryPart(this.tokenizeInt());
+
+    if (this.current != '.') {
+      throw new Exception('wrong format: ${this._source}');
+    }
+    this.consume();
+    this.setMandatoryPart(this.tokenizeInt());
+
+    if (this.current != '.') {
+      throw new Exception('wrong format: ${this._source}');
+    }
+    this.consume();
+    this.setMandatoryPart(this.tokenizeInt());
   }
 
  void tokenizePreRelease() {
