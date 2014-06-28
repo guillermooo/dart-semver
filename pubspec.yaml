@@ -1,5 +1,5 @@
 name: semver
-version: 0.1.0+1
+version: 0.2.0
 author: Guillermo López-Anglada <guillermo.lopez@outlook.com>
 description: A 'parser' for valid semantic version tags.
 homepage: https://github.com/guillermooo/dart-semver
