@@ -52,10 +52,10 @@ void main() {
     expect(sm < sm2, equals(true));
   });
 
-  test('can detect lesser version based on absence of pre-release component', () {
+  test('pre-release part makes version smaller', () {
     var sm = new SemanticVersion(0, 0, 0);
     var sm2 = new SemanticVersion(0, 0, 0, 'alpha');
-    expect(sm < sm2, equals(true));
+    expect(sm < sm2, equals(false));
   });
 
   test('absence/presence of build component does not affect test', () {
@@ -78,12 +78,6 @@ void main() {
 
   test('checking for lesser version fails based on patch component', () {
     var sm = new SemanticVersion(0, 1, 0);
-    var sm2 = new SemanticVersion(0, 0, 0);
-    expect(sm < sm2, equals(false));
-  });
-
-  test('checking for lesser version fails based on absence of pre-release component', () {
-    var sm = new SemanticVersion(0, 1, 0, 'alpha');
     var sm2 = new SemanticVersion(0, 0, 0);
     expect(sm < sm2, equals(false));
   });

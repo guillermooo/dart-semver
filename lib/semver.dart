@@ -49,11 +49,10 @@ class SemanticVersion {
 
     if (this.pre == null && other.pre == null) {
       return false;
-      // TODO(guillermo): check this.
     } else if (this.pre == null && other.pre != null) {
-      return true;
-    } else if (this.pre != null && other.pre == null) {
       return false;
+    } else if (this.pre != null && other.pre == null) {
+      return true;
     }
 
     if (this.pre == other.pre) {
