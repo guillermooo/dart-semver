@@ -11,14 +11,14 @@ A version parser for tags formed after the [semantic versioning convention][1].
 import 'package:semver/semver.dart';
 
 // from strings
-var sm = new semanticversion.fromstring('0.1.0');
+var sm = new SemanticVersion.fromstring('0.1.0');
 
 // from maps
 var myver = {'major': 10, 'minor': 5, 'patch': 1, build: '200'};
-var sm = new semanticversion.frommap(myver);
+var sm = new SemanticVersion.frommap(myver);
 
 // directly
-var newver = semanticversion(20, 10, 0, pre: 'alpha');
+var newver = SemanticVersion(20, 10, 0, pre: 'alpha');
 ```
 
 ### Comparing versions
@@ -26,13 +26,13 @@ var newver = semanticversion(20, 10, 0, pre: 'alpha');
 ```dart
 import 'package:semver/semver.dart';
 
-var sm1 = new semanticversion.fromstring('0.1.0+200');
-var sm2 = new semanticversion.fromstring('0.1.0+400');
+var sm1 = new SemanticVersion.fromstring('0.1.0+200');
+var sm2 = new SemanticVersion.fromstring('0.1.0+400');
 
 assert(sm1 == sm2); // true
 
-var sm3 = new semanticversion.fromstring('0.1.0-alpha');
-var sm4 = new semanticversion.fromstring('0.1.0');
+var sm3 = new SemanticVersion.fromstring('0.1.0-alpha');
+var sm4 = new SemanticVersion.fromstring('0.1.0');
 
 assert(sm3 < sm2); // true
 ```
