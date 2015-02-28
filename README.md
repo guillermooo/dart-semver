@@ -34,5 +34,5 @@ assert(sm1 == sm2); // true
 var sm3 = new SemanticVersion.fromString('0.1.0-alpha');
 var sm4 = new SemanticVersion.fromString('0.1.0');
 
-assert(sm3 < sm2); // true
+assert(sm3 < sm4); // true
 ```
