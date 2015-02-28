@@ -1,11 +1,13 @@
+// Copyright (c) 2015, Guillermo López-Anglada. All rights reserved. Use of this source code
+// is governed by a BSD-style license that can be found in the LICENSE file.
+
+/// A parser for version tags following the semantic versioning scheme.
 library semver;
 
-import 'package:semver/source/tokenizer.dart' show SemanticVersionTokenizer;
+import './src/tokenizer.dart' show tokenize;
 
+/// Represents a tag in the semantic version format: http://semver.org/.
 class SemanticVersion {
-  /*
-  * Represents a tag in the semantic version format: http://semver.org/.
-  */
   final int major;
   final int minor;
   final int patch;
@@ -21,8 +23,7 @@ class SemanticVersion {
   }
 
   factory SemanticVersion.fromString(String tag) {
-    SemanticVersionTokenizer t = new SemanticVersionTokenizer(tag);
-    return new SemanticVersion.fromMap(t.tokenize());
+    return new SemanticVersion.fromMap(tokenize(tag));
   }
 
   operator ==(SemanticVersion other) {
