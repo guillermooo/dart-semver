@@ -2,4 +2,7 @@
 pubspec.lock
 
 **/packages/
-
+.fsw.yml
+.packages
+.pub
+packages

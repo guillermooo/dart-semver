@@ -7,14 +7,14 @@ library semver;
 import './src/tokenizer.dart' show tokenize;
 
 /// Represents a tag in the semantic version format: http://semver.org/.
-class SemanticVersion {
+class SemanticVersion extends Object with Comparable {
   final int major;
   final int minor;
   final int patch;
   final String pre;
   final String build;
 
-  const SemanticVersion(this.major, this.minor, this.patch, [this.pre,
+  SemanticVersion(this.major, this.minor, this.patch, [this.pre,
       this.build]);
 
   factory SemanticVersion.fromMap(Map tag) {
@@ -90,6 +90,12 @@ class SemanticVersion {
     }
 
     return version;
+  }
+
+  int compareTo(SemanticVersion other) {
+    if (this < other) return -1;
+    else if (this > other) return 1;
+    else return 0;
   }
 }
 
